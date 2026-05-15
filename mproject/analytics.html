@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Analytics - Zero Hunger</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: url("image/image-bg.jpg") no-repeat center center/cover;
+        background-attachment: fixed;
+      }
+
+      /* ================= NAVBAR ================= */
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 50px;
+        background-color: #0b3d2e;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        color: white;
+        font-size: 24px;
+        font-weight: bold;
+      }
+      .logo img {
+        height: 70px;
+        width: 70px;
+        border-radius: 50%;
+        margin-right: 10px;
+      }
+      .nav-links {
+        list-style: none;
+        display: flex;
+        gap: 22px;
+      }
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+      }
+      .nav-links a i {
+        margin-right: 6px;
+      }
+      .nav-links a:hover {
+        color: gold;
+      }
+
+      h1 {
+        text-align: center;
+        color: white;
+        margin: 25px 0;
+        text-shadow: 2px 2px 5px black;
+      }
+
+      .stats {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+      .box {
+        background: white;
+        padding: 20px;
+        width: 230px;
+        border-radius: 12px;
+        text-align: center;
+        font-weight: bold;
+      }
+      .box-picked {
+        border: 4px solid #4caf50;
+        color: #4caf50;
+      }
+      .box-expired {
+        border: 4px solid #dc3545;
+        color: #dc3545;
+      }
+      .box-co2 {
+        border: 4px solid #0b3d2e;
+        color: #0b3d2e;
+      }
+
+      .dashboard-row {
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+        flex-wrap: wrap;
+        margin: 30px;
+      }
+
+      /* ================= FLOW CHART ================= */
+      .flow-vertical {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 25px;
+        border-radius: 15px;
+        width: 260px;
+      }
+
+      .flow-step {
+        padding: 14px;
+        text-align: center;
+        font-weight: bold;
+        color: white;
+        margin-bottom: 25px;
+        position: relative;
+        border: 3px solid #4caf50;
+        border-radius: 50px;
+      }
+
+      .flow-step::after {
+        content: "↓";
+        position: absolute;
+        bottom: -24px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 22px;
+        font-weight: bold;
+        color: #4caf50;
+      }
+
+      .flow-step:last-child::after {
+        content: "";
+      }
+
+      .donated {
+        background: #ff9800;
+      }
+      .listed {
+        background: #2196f3;
+      }
+      .collected {
+        background: #4caf50;
+      }
+      .served {
+        background: #9c27b0;
+      }
+
+      .chart-box {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 20px;
+        border-radius: 15px;
+        width: 320px;
+      }
+
+      /* ================= IMPACT CARDS ================= */
+      .impact-box {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 20px;
+        border-radius: 15px;
+        width: 420px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+      }
+
+      .impact-card {
+        background: linear-gradient(135deg, #0b3d2e, #4caf50);
+        color: white;
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .impact-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+        cursor: pointer;
+      }
+
+      .impact-card i {
+        font-size: 28px;
+      }
+
+      /* ================= EXPIRED TABLE ================= */
+      .expired-table-container {
+        margin: 30px auto;
+        width: 95%;
+        max-width: 1000px;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 20px;
+        border-radius: 12px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 10px;
+      }
+      th {
+        background: #0b3d2e;
+        color: white;
+      }
+      tr:nth-child(even) {
+        background: #f2f2f2;
+      }
+
+      .status-expired {
+        background: #dc3545;
+        color: white;
+        padding: 4px 10px;
+        border-radius: 12px;
+        font-weight: bold;
+      }
+
+      /* ================= FOOTER ================= */
+      .footer {
+        background-color: #0b3d2e;
+        color: white;
+        text-align: center;
+        padding: 15px;
+      }
+      .social-icons a {
+        color: white;
+        margin: 0 8px;
+        font-size: 20px;
+      }
+      .social-icons a:hover {
+        color: gold;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <nav class="navbar">
+        <div class="logo">
+          <img src="image/sharefood.jpeg" />
+          Zero Hunger
+        </div>
+        <ul class="nav-links">
+          <li>
+            <a href="index.html"><i class="fas fa-home"></i>Home</a>
+          </li>
+          <li>
+            <a href="view.html"><i class="fas fa-utensils"></i>View</a>
+          </li>
+          <li>
+            <a href="analytics.html"
+              ><i class="fas fa-chart-pie"></i>Analytics</a
+            >
+          </li>
+          <li>
+            <a href="feedback.html"><i class="fas fa-comment"></i>Feedback</a>
+          </li>
+          <li>
+            <a href="welcome.html"><i class="fas fa-sign-out-alt"></i>Logout</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <h1>📊 Donation Analytics Dashboard</h1>
+
+    <div class="stats">
+      <div class="box box-picked">
+        <h3>Picked Food✅</h3>
+        <h2 id="pickedCount">0</h2>
+      </div>
+      <div class="box box-expired">
+        <h3>Expired Food❌</h3>
+        <h2 id="expiredCount">0</h2>
+      </div>
+      <div class="box box-co2">
+        <h3>CO₂ Saved🌱</h3>
+        <h2 id="co2Saved">0 kg</h2>
+      </div>
+    </div>
+
+    <div class="dashboard-row">
+      <div class="flow-vertical">
+        <div class="flow-step donated">Donated</div>
+        <div class="flow-step listed">Listed</div>
+        <div class="flow-step collected">Collected</div>
+        <div class="flow-step served">Served</div>
+        <center>
+          <h3>Work flow</h3>
+        </center>
+      </div>
+
+      <div class="chart-box">
+        <canvas id="pieChart"></canvas>
+      </div>
+
+      <div class="impact-box">
+        <div class="impact-card">
+          <i class="fas fa-users"></i>
+          <h2 id="people">0</h2>
+          <p>People Helped</p>
+        </div>
+        <div class="impact-card">
+          <i class="fas fa-bowl-food"></i>
+          <h2 id="meals">0</h2>
+          <p>Meals Served</p>
+        </div>
+        <div class="impact-card">
+          <i class="fas fa-map-marker-alt"></i>
+          <h2 id="areas">0</h2>
+          <p>Areas Covered</p>
+        </div>
+        <div class="impact-card">
+          <i class="fas fa-hand-holding-heart"></i>
+          <h2 id="donors">0</h2>
+          <p>Active Donors</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="expired-table-container">
+      <h2>Expired Food Details</h2>
+      <table id="expiredTable">
+        <thead>
+          <tr>
+            <th>Donor Name</th>
+            <th>Food Details</th>
+            <th>Quantity</th>
+            <th>Expiry Date</th>
+            <th>Location</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <footer class="footer">
+      <p>&copy; 2025 Zero Hunger. All rights reserved.</p>
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+      </div>
+    </footer>
+
+    <script>
+      const history = JSON.parse(localStorage.getItem("donationHistory")) || [];
+      let expired = JSON.parse(localStorage.getItem("expiredDonations")) || [];
+
+      pickedCount.innerText = history.length;
+      expiredCount.innerText = expired.length;
+      co2Saved.innerText = history.length * 2.5 + " kg";
+
+      new Chart(pieChart, {
+        type: "pie",
+        data: {
+          labels: ["Picked", "Expired"],
+          datasets: [
+            {
+              data: [history.length, expired.length],
+              backgroundColor: ["#4caf50", "#dc3545"],
+            },
+          ],
+        },
+      });
+
+      function animate(id, val) {
+        let i = 0;
+        const el = document.getElementById(id);
+        const int = setInterval(() => {
+          el.innerText = i;
+          if (i >= val) clearInterval(int);
+          i++;
+        }, 20);
+      }
+
+      animate("people", history.length * 3);
+      animate("meals", history.length * 5);
+      animate("areas", Math.max(1, Math.floor(history.length / 3)));
+      animate("donors", history.length);
+
+      const tbody = document.querySelector("#expiredTable tbody");
+      tbody.innerHTML = "";
+      expired.forEach((d) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${d.donorName || "Unknown"}</td>
+          <td>${d.foodDetails || d.foodDetails}</td>
+          <td>${d.foodQuantity}</td>
+          <td>${d.expiryDateTime}</td>
+          <td>${d.areaName || "Not Provided"}</td>
+          <td><span class="status-expired">Expired</span></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    </script>
+  </body>
+</html>

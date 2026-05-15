@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zero Hunger - Login</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        min-height: 100vh;
+        background: url("image/login.jpg") no-repeat center center/cover;
+        display: flex;
+        flex-direction: column;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+      }
+
+      header {
+        background-color: #0b3d2e;
+        color: white;
+        padding: 20px 50px;
+        display: flex;
+        align-items: center;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .logo span {
+        font-size: 1.5em;
+        font-weight: bold;
+        color: rgb(247, 246, 243);
+      }
+
+      .main-content {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 40px 0;
+      }
+
+      .login-container {
+        background-color: rgba(0, 0, 0, 0.7);
+        padding: 30px;
+        border-radius: 10px;
+        width: 320px;
+        text-align: center;
+        color: white;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      }
+
+      .login-container h2 {
+        margin-bottom: 20px;
+        color: gold;
+      }
+
+      .login-container input {
+        width: 100%;
+        padding: 10px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 5px;
+      }
+
+      .extra-options {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.85em;
+        margin-bottom: 15px;
+      }
+
+      .extra-options .remember-me {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        color: white;
+        white-space: nowrap;
+      }
+
+      .extra-options a {
+        color: gold;
+        text-decoration: none;
+      }
+
+      .btn-login {
+        width: 100%;
+        padding: 12px;
+        background-color: gold;
+        color: black;
+        border: none;
+        font-weight: bold;
+        font-size: 1em;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-bottom: 15px;
+      }
+
+      .signup-text a {
+        color: gold;
+        text-decoration: none;
+      }
+
+      .footer {
+        background-color: #0b3d2e;
+        color: white;
+        text-align: center;
+        padding: 15px 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- HEADER -->
+    <header>
+      <div class="logo">
+        <img
+          src="image/sharefood.jpeg"
+          style="height: 60px; width: 60px; border-radius: 50%"
+        />
+        <span>Zero Hunger</span>
+      </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+      <div class="login-container">
+        <h2>Login</h2>
+
+        <form onsubmit="loginUser(event)">
+          <input type="text" placeholder="Username" id="loginName" required />
+          <input
+            type="password"
+            placeholder="Password"
+            id="loginPassword"
+            required
+          />
+
+          <div class="extra-options">
+            <label class="remember-me">
+              <input type="checkbox" /> Remember Me
+            </label>
+            <a href="forgot.html">Forgot Password?</a>
+          </div>
+
+          <button type="submit" class="btn-login">Login</button>
+
+          <p class="signup-text">
+            Don't have an account?
+            <a href="create.html">Create Account</a>
+          </p>
+        </form>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <p>&copy; 2025 Zero Hunger . All rights reserved.</p>
+    </footer>
+
+    <!-- LOGIN SCRIPT (UPDATED) -->
+    <script>
+      function loginUser(event) {
+        event.preventDefault();
+
+        const enteredName = document.getElementById("loginName").value.trim();
+        const enteredPassword = document.getElementById("loginPassword").value;
+
+        const users = JSON.parse(localStorage.getItem("users")) || [];
+
+        if (users.length === 0) {
+          alert("No account found. Please create one first!");
+          return;
+        }
+
+        const validUser = users.find(
+          (user) =>
+            user.username === enteredName && user.password === enteredPassword
+        );
+
+        if (validUser) {
+          alert("Login successful!");
+          localStorage.setItem("currentUser", JSON.stringify(validUser));
+
+          // 📧 SEND INVENTORY EMAIL IF FOOD AVAILABLE
+          const pending = JSON.parse(localStorage.getItem("pendingDonations")) || [];
+          const now = new Date();
+          const validFood = pending.filter(
+            (d) => new Date(d.expiryDateTime).getTime() > now.getTime()
+          );
+
+          if (validFood.length > 0) {
+              fetch("http://localhost:5000/send-inventory-email", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                      email: validUser.email,
+                      foodList: validFood
+                  })
+              })
+              .catch(err => console.error("Digest Error:", err));
+          }
+
+          alert("Login successful! Checking for available food...");
+          setTimeout(() => { window.location.href = "index.html"; }, 1000); // Delay slightly for fetch
+        } else {
+          alert("Invalid username or password!");
+        }
+      }
+    </script>
+  </body>
+</html>

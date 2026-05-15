@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zero Hunger</title>
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: url("image/image-bg.jpg") no-repeat center center/cover;
+        background-attachment: fixed;
+      }
+
+      /* ================= NAVBAR ================= */
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 50px;
+        background-color: #0b3d2e;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        color: white;
+        font-size: 24px;
+        font-weight: bold;
+      }
+      .logo img {
+        height: 70px;
+        width: 70px;
+        border-radius: 50%;
+        margin-right: 10px;
+      }
+      .nav-links {
+        list-style: none;
+        display: flex;
+        gap: 22px;
+      }
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+      }
+      .nav-links a i {
+        margin-right: 6px;
+      }
+      .nav-links a:hover {
+        color: gold;
+      }
+
+      /* Hero Section */
+      .hero {
+        height: 80vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .overlay {
+        background: rgba(0, 0, 0, 0.6);
+        padding: 60px;
+        border-radius: 15px;
+        text-align: center;
+        color: white;
+      }
+
+      .overlay h1 {
+        font-size: 42px;
+        margin-bottom: 15px;
+      }
+
+      .overlay p {
+        font-size: 18px;
+        margin-bottom: 30px;
+      }
+
+      .buttons {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+      }
+
+      .btn {
+        padding: 12px 25px;
+        border-radius: 8px;
+        font-weight: bold;
+        text-decoration: none;
+        color: white;
+        transition: 0.3s;
+      }
+
+      .btn.green {
+        background-color: #28a745;
+      }
+
+      .btn.green:hover {
+        background-color: #218838;
+      }
+
+      .btn.yellow {
+        background-color: #ffc107;
+        color: black;
+      }
+
+      .btn.yellow:hover {
+        background-color: #e0a800;
+      }
+
+      /* How It Works Section */
+      .how-it-works {
+        background: #ffffff;
+        padding: 60px 20px;
+        text-align: center;
+      }
+
+      .how-it-works h2 {
+        font-size: 32px;
+        color: #0b3d2e;
+        margin-bottom: 40px;
+      }
+
+      .steps-container {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        align-items: center;
+        position: relative;
+      }
+
+      .step-card {
+        background: #f9f9f9;
+        width: 300px;
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, border 0.5s ease;
+      }
+
+      .step-card:hover {
+        transform: translateY(-10px);
+      }
+
+      .step-card h3 {
+        color: #024d34;
+        margin-bottom: 10px;
+      }
+
+      .step-card p {
+        font-size: 15px;
+        color: #555;
+      }
+
+      .arrow {
+        font-size: 30px;
+        color: #0b3d2e;
+        align-self: center;
+        margin: 0 10px;
+      }
+
+      /* ================= FEEDBACK DISPLAY SECTION ================= */
+      .feedback-display {
+        background: #f4f9f7;
+        padding: 60px 20px;
+        text-align: center;
+      }
+
+      .feedback-display h2 {
+        color: #0b3d2e;
+        margin-bottom: 20px;
+      }
+
+      .overall-rating {
+        margin-bottom: 30px;
+        font-size: 20px;
+        color: #28a745;
+      }
+
+      .feedback-container {
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+        flex-wrap: wrap;
+      }
+
+      .feedback-card {
+        background: white;
+        width: 300px;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        position: relative;
+        text-align: left;
+        animation: fadeUp 0.5s ease;
+      }
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .feedback-card h4 {
+        margin: 0;
+        color: #024d34;
+      }
+
+      .feedback-card small {
+        color: #777;
+        font-size: 12px;
+      }
+
+      .feedback-card p {
+        font-size: 14px;
+        margin-top: 10px;
+      }
+
+      .stars {
+        color: gold;
+        margin: 6px 0;
+        font-size: 16px;
+      }
+
+      .delete-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        color: red;
+        cursor: pointer;
+      }
+
+      /* Footer */
+      .footer {
+        background-color: #0b3d2e;
+        color: white;
+        text-align: center;
+        padding: 15px;
+      }
+
+      .social-icons a {
+        color: white;
+        margin: 0 8px;
+        font-size: 20px;
+      }
+
+      .social-icons a:hover {
+        color: gold;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Header -->
+    <header>
+      <nav class="navbar">
+        <div class="logo">
+          <img src="image/sharefood.jpeg" />
+          Zero Hunger
+        </div>
+        <ul class="nav-links">
+          <li>
+            <a href="index.html"><i class="fas fa-home"></i>Home</a>
+          </li>
+          <li>
+            <a href="view.html"><i class="fas fa-utensils"></i>View</a>
+          </li>
+          <li>
+            <a href="analytics.html"
+              ><i class="fas fa-chart-pie"></i>Analytics</a
+            >
+          </li>
+          <li>
+            <a href="feedback.html"><i class="fas fa-comment"></i>Feedback</a>
+          </li>
+          <li>
+            <a href="welcome.html"><i class="fas fa-sign-out-alt"></i>Logout</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="overlay">
+        <h1>Save Food. Save Lives.</h1>
+        <p>Donate your excess food. Help the hungry. Build a better world.</p>
+        <div class="buttons">
+          <a href="donate.html" class="btn green">Donate Food</a>
+          <a href="collector.html" class="btn yellow">Collector</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works">
+      <h2>How Zero Hunger Works</h2>
+
+      <div class="steps-container">
+        <div class="step-card">
+          <img src="image/donator.jpg" style="height: 200px; width: 200px" />
+          <h3>1. Donate Food</h3>
+          <p>
+            Donors submit food details including quantity, expiry date, and
+            pickup location.
+          </p>
+        </div>
+        <i class="fas fa-arrow-right arrow"></i>
+
+        <div class="step-card">
+          <img src="image/collector.jpg" style="height: 200px; width: 200px" />
+          <h3>2. Collector Picks Up</h3>
+          <p>
+            Collectors view donation requests and safely pick up food from
+            donors.
+          </p>
+        </div>
+        <i class="fas fa-arrow-right arrow"></i>
+
+        <div class="step-card">
+          <img src="image/serve.jpg" style="height: 180px; width: 180px" />
+          <h3>3. View Donation History</h3>
+          <p>
+            All collected food is recorded and visible in the donation history
+            page.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEEDBACK DISPLAY -->
+    <section class="feedback-display">
+      <h2>What People Say About Zero Hunger 💬</h2>
+      <div class="overall-rating" id="overallRating"></div>
+      <div class="feedback-container" id="feedbackContainer"></div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>&copy; 2025 Zero Hunger. All rights reserved.</p>
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+      </div>
+    </footer>
+
+    <script>
+      // ===== Feedback Handling =====
+      const feedbackContainer = document.getElementById("feedbackContainer");
+      const overallRatingDiv = document.getElementById("overallRating");
+      let feedbacks = JSON.parse(localStorage.getItem("feedbacks")) || [];
+
+      function deleteFeedback(index) {
+        if (confirm("Delete this feedback?")) {
+          feedbacks.splice(feedbacks.length - 1 - index, 1);
+          localStorage.setItem("feedbacks", JSON.stringify(feedbacks));
+          renderFeedbackWithRatingsWave();
+        }
+      }
+
+      // ===== Animate Feedback with Increasing/Decreasing Ratings & Overall =====
+      function renderFeedbackWithRatingsWave() {
+        feedbackContainer.innerHTML = "";
+
+        if (feedbacks.length === 0) {
+          feedbackContainer.innerHTML =
+            "<p>No feedback yet. Be the first to share 😊</p>";
+          overallRatingDiv.innerHTML = "";
+          return;
+        }
+
+        // Calculate overall average rating
+        const total = feedbacks.reduce((sum, f) => sum + f.rating, 0);
+        const avgRating = (total / feedbacks.length).toFixed(1);
+        overallRatingDiv.innerHTML =
+          `Overall Rating: ${avgRating} ` + "★".repeat(Math.round(avgRating));
+
+        // Sort feedbacks by rating to create wave animation
+        const sorted = feedbacks.slice().sort((a, b) => a.rating - b.rating);
+        sorted.reverse();
+
+        sorted.forEach((fb, idx) => {
+          const card = document.createElement("div");
+          card.classList.add("feedback-card");
+          card.innerHTML = `
+            <i class="fas fa-trash delete-btn" onclick="deleteFeedback(${idx})"></i>
+            <h4>${fb.name}</h4>
+            <small>${fb.type} • ${fb.date}</small>
+            <div class="stars"></div>
+            <p>${fb.message}</p>
+          `;
+          feedbackContainer.appendChild(card);
+
+          const starsDiv = card.querySelector(".stars");
+          let starsCount = 0;
+          const delay = idx * 300;
+          setTimeout(() => {
+            const interval = setInterval(() => {
+              starsCount++;
+              starsDiv.textContent = "★".repeat(starsCount);
+              if (starsCount >= fb.rating) clearInterval(interval);
+            }, 150);
+          }, delay);
+        });
+      }
+
+      renderFeedbackWithRatingsWave();
+
+      // ===== Step Highlight Animation =====
+      const steps = document.querySelectorAll(".step-card");
+      let currentStep = 0;
+
+      function highlightStep() {
+        steps.forEach((step, index) => {
+          step.style.border =
+            index === currentStep ? "3px solid #28a745" : "none";
+        });
+        currentStep = (currentStep + 1) % steps.length;
+      }
+
+      setInterval(highlightStep, 2000);
+    </script>
+  </body>
+</html>

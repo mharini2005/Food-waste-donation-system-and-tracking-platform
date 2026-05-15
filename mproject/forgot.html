@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Zero Hunger - Forgot Password</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        min-height: 100vh;
+        background: url("image/login.jpg") no-repeat center center/cover;
+        display: flex;
+        flex-direction: column;
+        background-attachment: fixed;
+      }
+
+      /* HEADER (LOGIN PAGE COLOR) */
+      header {
+        background-color: #0b3d2e;
+        color: white;
+        padding: 20px 50px;
+        display: flex;
+        align-items: center;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .logo span {
+        font-size: 1.5em;
+        font-weight: bold;
+        color: rgb(247, 246, 243);
+      }
+
+      /* MAIN */
+      .main-content {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .forgot-container {
+        background-color: rgba(0, 0, 0, 0.7);
+        padding: 30px;
+        border-radius: 10px;
+        width: 350px;
+        text-align: center;
+        color: white;
+      }
+
+      h2 {
+        color: gold;
+      }
+
+      input {
+        width: 100%;
+        padding: 10px;
+        margin: 8px 0;
+        border-radius: 5px;
+        border: none;
+      }
+
+      .btn {
+        width: 100%;
+        padding: 12px;
+        background-color: gold;
+        border: none;
+        font-weight: bold;
+        cursor: pointer;
+        margin-top: 10px;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      /* FOOTER (LOGIN PAGE COLOR) */
+      footer {
+        background-color: #0b3d2e;
+        color: white;
+        text-align: center;
+        padding: 15px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- HEADER -->
+    <header>
+      <div class="logo">
+        <img
+          src="image/sharefood.jpeg"
+          style="height: 60px; width: 60px; border-radius: 50%"
+        />
+        <span>Zero Hunger</span>
+      </div>
+    </header>
+
+    <!-- MAIN -->
+    <div class="main-content">
+      <div class="forgot-container">
+        <h2>Forgot Password</h2>
+
+        <!-- STEP 1 -->
+        <div id="step1">
+          <input
+            type="email"
+            id="emailInput"
+            placeholder="Enter registered email"
+          />
+          <button class="btn" onclick="sendOTP()">Send OTP</button>
+        </div>
+
+        <!-- STEP 2 -->
+        <div id="step2" class="hidden">
+          <input type="text" id="otpInput" placeholder="Enter OTP" />
+          <button class="btn" onclick="verifyOTP()">Verify OTP</button>
+        </div>
+
+        <!-- STEP 3 -->
+        <div id="step3" class="hidden">
+          <input type="password" id="newPassword" placeholder="New Password" />
+          <input
+            type="password"
+            id="confirmPassword"
+            placeholder="Confirm Password"
+          />
+          <button class="btn" onclick="resetPassword()">Reset Password</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+      <p>&copy; 2025 Zero Hunger. All rights reserved.</p>
+    </footer>
+
+    <script>
+      emailjs.init("YOUR_PUBLIC_KEY"); // 🔴 replace
+
+      let generatedOTP = "";
+      let userIndex = -1;
+
+      function sendOTP() {
+        const email = document.getElementById("emailInput").value.trim();
+        const users = JSON.parse(localStorage.getItem("users")) || [];
+
+        userIndex = users.findIndex((u) => u.email === email);
+
+        if (userIndex === -1) {
+          alert("Email not registered!");
+          return;
+        }
+
+        generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+
+        emailjs
+          .send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
+            to_email: email,
+            otp: generatedOTP,
+          })
+          .then(() => {
+            alert("OTP sent to your email!");
+            step1.classList.add("hidden");
+            step2.classList.remove("hidden");
+          })
+          .catch(() => {
+            alert("Failed to send OTP");
+          });
+      }
+
+      function verifyOTP() {
+        if (otpInput.value === generatedOTP) {
+          step2.classList.add("hidden");
+          step3.classList.remove("hidden");
+        } else {
+          alert("Invalid OTP");
+        }
+      }
+
+      function resetPassword() {
+        if (newPassword.value !== confirmPassword.value) {
+          alert("Passwords do not match");
+          return;
+        }
+
+        const users = JSON.parse(localStorage.getItem("users"));
+        users[userIndex].password = newPassword.value;
+        localStorage.setItem("users", JSON.stringify(users));
+
+        alert("Password reset successful!");
+        window.location.href = "login.html";
+      }
+    </script>
+  </body>
+</html>

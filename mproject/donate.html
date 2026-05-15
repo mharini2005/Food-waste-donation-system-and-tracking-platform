@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Donate Food - Zero Hunger</title>
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <!-- Leaflet Map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: url("image/image-bg.jpg") no-repeat center center/cover;
+        background-attachment: fixed;
+      }
+
+      /* ================= NAVBAR ================= */
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 50px;
+        background-color: #0b3d2e;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        color: white;
+        font-size: 24px;
+        font-weight: bold;
+      }
+      .logo img {
+        height: 70px;
+        width: 70px;
+        border-radius: 50%;
+        margin-right: 10px;
+      }
+      .nav-links {
+        list-style: none;
+        display: flex;
+        gap: 22px;
+      }
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+      }
+      .nav-links a i {
+        margin-right: 6px;
+      }
+      .nav-links a:hover {
+        color: gold;
+      }
+
+      .main {
+        display: flex;
+        gap: 30px;
+        padding: 40px 5%;
+        flex-wrap: wrap;
+      }
+
+      .left-content {
+        flex: 1 1 45%;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 15px;
+        border-radius: 12px;
+        height: 650px;
+      }
+
+      .left-content h2 {
+        margin-top: 0;
+      }
+
+      .left-content ul {
+        list-style: none;
+        padding-left: 0;
+      }
+
+      .left-content ul li::before {
+        content: "✅";
+        margin-right: 8px;
+        color: green;
+      }
+
+      .image-row {
+        display: flex;
+        gap: 12px;
+        margin-top: 15px;
+        margin-left: 80px;
+      }
+
+      .image-row img {
+        width: 100%;
+        max-width: 220px;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 10px;
+      }
+
+      .donate-form {
+        flex: 1 1 45%;
+        background: rgba(0, 0, 0, 0.85);
+        color: white;
+        padding: 26px;
+        border-radius: 12px;
+      }
+
+      .donate-form h2 {
+        text-align: center;
+        color: #ffd700;
+      }
+
+      .donate-form input,
+      .donate-form textarea,
+      .donate-form select {
+        width: 100%;
+        padding: 10px;
+        margin: 8px 0;
+        border-radius: 6px;
+        border: none;
+      }
+
+      /* Yellow buttons */
+      .btn {
+        width: 100%;
+        padding: 12px;
+        background: #ffd700; /* Yellow */
+        color: #000;
+        font-weight: 700;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+
+      .btn:hover {
+        background: #e6c200; /* Darker yellow on hover */
+      }
+
+      .camera-section {
+        margin-top: 12px;
+        text-align: center;
+      }
+
+      .camera-box {
+        border: 2px dashed #ffd700;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.04);
+        padding: 8px;
+      }
+
+      .camera-box video {
+        width: 100%;
+        border-radius: 8px;
+        max-height: 200px;
+        object-fit: cover;
+      }
+
+      .camera-buttons {
+        display: flex;
+        gap: 12px;
+        margin-top: 12px;
+      }
+
+      iframe {
+        width: 100%;
+        height: 200px;
+        border: 0;
+        border-radius: 10px;
+        margin-top: 10px;
+      }
+
+      /* Footer */
+      .footer {
+        background-color: #0b3d2e;
+        color: white;
+        text-align: center;
+        padding: 15px;
+      }
+
+      .social-icons a {
+        color: white;
+        margin: 0 8px;
+        font-size: 20px;
+      }
+
+      .social-icons a:hover {
+        color: gold;
+      }
+
+      /* Preview image size 200x200 */
+      #previewImage {
+        width: 200px;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Header -->
+    <header>
+      <nav class="navbar">
+        <div class="logo">
+          <img src="image/sharefood.jpeg" />
+          Zero Hunger
+        </div>
+        <ul class="nav-links">
+          <li>
+            <a href="index.html"><i class="fas fa-home"></i>Home</a>
+          </li>
+          <li>
+            <a href="view.html"><i class="fas fa-utensils"></i>View</a>
+          </li>
+          <li>
+            <a href="analytics.html"
+              ><i class="fas fa-chart-pie"></i>Analytics</a
+            >
+          </li>
+          <li>
+            <a href="feedback.html"><i class="fas fa-comment"></i>Feedback</a>
+          </li>
+          <li>
+            <a href="welcome.html"><i class="fas fa-sign-out-alt"></i>Logout</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <main class="main">
+      <section class="left-content">
+        <h2>Why Donating Food Matters 🍲</h2>
+        <p>
+          Every meal you donate can fill an empty stomach and spark hope for
+          someone struggling to make it through the day.
+        </p>
+        <p>
+          At <strong>Zero Hunger</strong>, every contribution — no matter how
+          small — helps build a stronger, kinder, and healthier community. Your
+          support ensures that food reaches orphanages, old-age homes, and the
+          homeless, bringing smiles and comfort where it’s needed most.
+        </p>
+
+        <!-- New added simple benefits -->
+        <h3>💚 Benefits of Donating Food</h3>
+        <ul>
+          <li>Reduce food waste and protect the environment 🌱</li>
+          <li>Feed someone hungry and make their day brighter 🍛</li>
+          <li>Feel the joy of giving and sharing ❤️</li>
+          <li>Teach children and community the value of kindness 🤝</li>
+        </ul>
+        <center>
+          <p
+            style="font-style: italic; color: rgb(71, 2, 30); margin-top: 10px"
+          >
+            <strong
+              >"உண்ணாதவனுக்கு உணவு உண்டு, உண்ணுபவருக்கு பண்பு உண்டு"</strong
+            ><br />
+            (Those who share food gain virtue, not just a meal)
+          </p>
+        </center>
+        <center>
+          <p style="font-weight: 700; color: darkgreen; margin-top: 8px">
+            💚 Together, we can end hunger — one meal at a time.
+          </p>
+        </center>
+
+        <div class="image-row">
+          <img src="image/donate1.jpg" />
+          <img src="image/donate2.jpg" />
+        </div>
+      </section>
+
+      <form class="donate-form" id="donateForm">
+        <h2>Donate Food</h2>
+
+        <input type="text" id="donorName" placeholder="Your Name" required />
+        <input type="email" id="donorEmail" placeholder="Your Email" required />
+        <input type="text" id="donorPhone" placeholder="Your Phone" required />
+
+        <select id="foodType" required>
+          <option value="">Select Food Type</option>
+          <option>Cooked Food</option>
+          <option>Packed Food</option>
+          <option>Vegetables</option>
+          <option>Snacks / Sweets</option>
+          <option>Fruits</option>
+        </select>
+
+        <textarea
+          id="foodDetails"
+          rows="3"
+          placeholder="Food Details"
+          required
+        ></textarea>
+
+        <input type="text" id="foodQuantity" placeholder="Quantity" required />
+
+        <label style="color: #ffd700">⏰ Expiry Date & Time</label>
+        <input type="datetime-local" id="expiryDateTime" required />
+
+        <label style="color: #ffd700">📍 Live Location</label>
+        <div id="mapFrame" style="height: 200px; width: 100%; border-radius: 10px; margin-top: 10px;"></div>
+
+        <div class="camera-section">
+          <h3 style="color: #ffd700">📷 Food Image</h3>
+
+          <div class="camera-box">
+            <video id="camera" autoplay playsinline></video>
+            <canvas id="photoCanvas" style="display: none"></canvas>
+          </div>
+
+          <div class="camera-buttons">
+            <button type="button" class="btn" id="captureBtn">
+              📸 Capture
+            </button>
+            <label class="btn" style="background: #444; color: #fff">
+              📂 Upload
+              <input type="file" id="uploadFile" accept="image/*" hidden />
+            </label>
+          </div>
+
+          <div id="previewBox" style="display: none; margin-top: 10px">
+            <p style="color: lightgreen">✅ Image Selected</p>
+            <img id="previewImage" />
+          </div>
+        </div>
+
+        <button type="submit" class="btn" style="margin-top: 14px">
+          Submit Donation
+        </button>
+      </form>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>&copy; 2025 Zero Hunger. All rights reserved.</p>
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+      </div>
+    </footer>
+
+    <script>
+  const video = document.getElementById("camera");
+  const canvas = document.getElementById("photoCanvas");
+  const captureBtn = document.getElementById("captureBtn");
+  const uploadFile = document.getElementById("uploadFile");
+  const previewBox = document.getElementById("previewBox");
+  const previewImage = document.getElementById("previewImage");
+  const donateForm = document.getElementById("donateForm");
+  const mapFrame = document.getElementById("mapFrame");
+  const expiryInput = document.getElementById("expiryDateTime");
+
+  let photoData = "";
+  let locationCoords = "";
+  let areaName = "";
+  let locationReady = false;
+  let imageReady = false;
+
+  // Prevent past datetime selection
+  const now = new Date();
+  expiryInput.min = now.toISOString().slice(0, 16);
+
+  // Camera
+  navigator.mediaDevices
+    .getUserMedia({ video: true })
+    .then((stream) => (video.srcObject = stream));
+
+  function resizeImage(dataUrl, callback) {
+    const img = new Image();
+    img.onload = () => {
+      const c = document.createElement("canvas");
+      c.width = 100;
+      c.height = 100;
+      const ctx = c.getContext("2d");
+      ctx.drawImage(img, 0, 0, 100, 100);
+      callback(c.toDataURL("image/png"));
+    };
+    img.src = dataUrl;
+  }
+
+  captureBtn.onclick = () => {
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    canvas.getContext("2d").drawImage(video, 0, 0);
+    resizeImage(canvas.toDataURL("image/png"), (resized) => {
+      photoData = resized;
+      previewImage.src = photoData;
+      previewBox.style.display = "block";
+      imageReady = true;
+    });
+  };
+
+  uploadFile.onchange = (e) => {
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      resizeImage(ev.target.result, (resized) => {
+        photoData = resized;
+        previewImage.src = photoData;
+        previewBox.style.display = "block";
+        imageReady = true;
+      });
+    };
+    reader.readAsDataURL(e.target.files[0]);
+  };
+
+  // LEAFLET MAP SETUP
+  const map = L.map('mapFrame').setView([20.5937, 78.9629], 5); // Default India center
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+  let marker;
+
+  // AUTO-FILL USER DETAILS
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  if (currentUser) {
+    document.getElementById("donorName").value = currentUser.username || "";
+    document.getElementById("donorEmail").value = currentUser.email || "";
+    // Phone is not saved in create.html, so we leave it empty or checking if validUser has it (it doesn't currently)
+  }
+
+  // Geolocation
+  navigator.geolocation.watchPosition(
+    async (pos) => {
+      const lat = pos.coords.latitude;
+      const lng = pos.coords.longitude;
+      locationCoords = `Lat:${lat},Lng:${lng}`;
+      
+      if (marker) {
+        marker.setLatLng([lat, lng]);
+      } else {
+        marker = L.marker([lat, lng]).addTo(map);
+        map.setView([lat, lng], 15);
+      }
+
+      locationReady = true;
+
+      // Reverse Geocoding (throttled/once)
+      if (areaName === "") {
+        try {
+          const res = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`
+          );
+          const data = await res.json();
+          areaName =
+            data.address?.suburb ||
+            data.address?.neighbourhood ||
+            data.address?.city ||
+            data.address?.town ||
+            data.address?.village ||
+            "Not Provided";
+        } catch {
+          areaName = "Not Provided";
+        }
+      }
+    },
+    () => {
+      alert("Location permission denied");
+      locationReady = false;
+    },
+    { enableHighAccuracy: true }
+  );
+
+  // Form submission
+  donateForm.onsubmit = (e) => {
+    e.preventDefault();
+
+    if (!locationReady) {
+      alert("❌ Please allow location to submit donation.");
+      return;
+    }
+
+    if (!imageReady) {
+      alert("❌ Please capture or upload a food image before submitting.");
+      return;
+    }
+
+    const data = {
+      donorName: donorName.value,
+      donorEmail: donorEmail.value,
+      donorPhone: donorPhone.value,
+      foodType: foodType.value,
+      foodDetails: foodDetails.value,
+      foodQuantity: foodQuantity.value,
+      expiryDateTime: expiryDateTime.value,
+      location: locationCoords,
+      areaName: areaName,
+      image: photoData,
+      time: new Date().toLocaleString()
+    };
+
+    // SAVE DONATION
+    const list = JSON.parse(
+      localStorage.getItem("pendingDonations") || "[]"
+    );
+    list.push(data);
+    localStorage.setItem("pendingDonations", JSON.stringify(list));
+
+    // 🔔 GLOBAL NOTIFICATION (NEW ADDITION)
+    const notification = {
+      title: "🍱 New Food Donation Available!",
+      message: `Donor: ${data.donorName}
+Food: ${data.foodType}
+Quantity: ${data.foodQuantity}
+Place: ${data.areaName}
+Time: ${data.time}`,
+      time: data.time
+    };
+
+    const notifications =
+      JSON.parse(localStorage.getItem("globalNotifications")) || [];
+    notifications.unshift(notification);
+    localStorage.setItem(
+      "globalNotifications",
+      JSON.stringify(notifications)
+    );
+
+    // GET ALL REGISTERED USERS FROM LOCAL STORAGE
+    const usersList = JSON.parse(localStorage.getItem("users")) || [];
+    const recipientEmails = usersList.map(u => u.email).filter(email => email);
+
+    // 📧 SEND EMAIL NOTIFICATION (BACKEND CALL)
+    fetch("http://localhost:5000/notify-donation", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        donorName: data.donorName,
+        foodType: data.foodType,
+        foodQuantity: data.foodQuantity,
+        areaName: data.areaName,
+        time: data.time,
+        location: data.location,
+        recipientEmails: recipientEmails // 👈 Sending list of all users
+      })
+    })
+    .then(res => res.json())
+    .then(data => console.log("Email Notification:", data.message))
+    .catch(err => console.error("Notification Error:", err));
+
+    alert("✅ Donation Submitted & Users Notified");
+    window.location.href = "collector.html";
+  };
+</script>
+
+  </body>
+</html>

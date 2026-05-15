@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Zero Hunger - Create Account</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        min-height: 100vh;
+        background: url("image/login.jpg") no-repeat center center/cover;
+        display: flex;
+        flex-direction: column;
+      }
+      header {
+        background-color: #0b3d2e;
+        color: white;
+        padding: 20px 50px;
+        display: flex;
+        align-items: center;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .logo span {
+        font-size: 1.5em;
+        font-weight: bold;
+      }
+      .main-content {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .register-container {
+        background: rgba(0, 0, 0, 0.7);
+        padding: 30px;
+        border-radius: 10px;
+        width: 320px;
+        color: white;
+        text-align: center;
+      }
+      input {
+        width: 100%;
+        padding: 10px;
+        margin-top: 8px;
+        border-radius: 5px;
+        border: none;
+      }
+      small {
+        display: block;
+        text-align: left;
+        font-size: 12px;
+      }
+      button {
+        width: 100%;
+        padding: 12px;
+        background: gold;
+        border: none;
+        font-weight: bold;
+        margin-top: 15px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <div class="logo">
+        <img
+          src="image/sharefood.jpeg"
+          style="height: 60px; width: 60px; border-radius: 50%"
+        />
+        <span>Zero Hunger</span>
+      </div>
+    </header>
+
+    <div class="main-content">
+      <div class="register-container">
+        <h2>Create Account</h2>
+
+        <form onsubmit="registerUser(event)">
+          <input type="text" id="regName" placeholder="Username" required />
+          <small id="nameMsg"></small>
+
+          <input type="email" id="regEmail" placeholder="Email" required />
+          <small id="emailMsg"></small>
+
+          <input
+            type="password"
+            id="regPassword"
+            placeholder="Password"
+            required
+          />
+          <small id="passMsg"></small>
+
+          <input
+            type="password"
+            id="confirmPassword"
+            placeholder="Confirm Password"
+            required
+          />
+          <small id="confirmMsg"></small>
+
+          <button type="submit">Register</button>
+
+          <p>
+            Already have an account?
+            <a href="login.html" style="color: gold">Login</a>
+          </p>
+        </form>
+      </div>
+    </div>
+
+    <!-- FULL VALIDATION SCRIPT -->
+    <script>
+      const username = document.getElementById("regName");
+      const email = document.getElementById("regEmail");
+      const password = document.getElementById("regPassword");
+      const confirmPassword = document.getElementById("confirmPassword");
+
+      const nameMsg = document.getElementById("nameMsg");
+      const emailMsg = document.getElementById("emailMsg");
+      const passMsg = document.getElementById("passMsg");
+      const confirmMsg = document.getElementById("confirmMsg");
+
+      const usernameRegex = /^[A-Za-z]+$/;
+      const gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+      const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&]).{8,}$/;
+
+      // Username validation
+      username.addEventListener("input", () => {
+        if (usernameRegex.test(username.value)) {
+          nameMsg.style.color = "lightgreen";
+          nameMsg.textContent = "✔ Username valid";
+        } else {
+          nameMsg.style.color = "red";
+          nameMsg.textContent = "❌ Only letters allowed";
+        }
+      });
+
+      // Email validation
+      email.addEventListener("input", () => {
+        if (gmailRegex.test(email.value)) {
+          emailMsg.style.color = "lightgreen";
+          emailMsg.textContent = "✔ Valid Gmail ID";
+        } else {
+          emailMsg.style.color = "red";
+          emailMsg.textContent = "❌ Must end with @gmail.com";
+        }
+      });
+
+      // Password validation
+      password.addEventListener("input", () => {
+        if (passwordRegex.test(password.value)) {
+          passMsg.style.color = "lightgreen";
+          passMsg.textContent = "✔ Strong password";
+        } else {
+          passMsg.style.color = "red";
+          passMsg.textContent =
+            "❌ 8+ chars, letter, number & special char needed";
+        }
+      });
+
+      // Confirm password validation
+      confirmPassword.addEventListener("input", () => {
+        if (confirmPassword.value === password.value) {
+          confirmMsg.style.color = "lightgreen";
+          confirmMsg.textContent = "✔ Password matched";
+        } else {
+          confirmMsg.style.color = "red";
+          confirmMsg.textContent = "❌ Password not matching";
+        }
+      });
+
+      // Submit validation + duplicate email check
+      function registerUser(e) {
+        e.preventDefault();
+
+        if (
+          !usernameRegex.test(username.value) ||
+          !gmailRegex.test(email.value) ||
+          !passwordRegex.test(password.value) ||
+          password.value !== confirmPassword.value
+        ) {
+          alert("Please fix validation errors");
+          return;
+        }
+
+        const users = JSON.parse(localStorage.getItem("users")) || [];
+
+        if (users.some((u) => u.email === email.value)) {
+          alert("Email already registered!");
+          return;
+        }
+
+        users.push({
+          username: username.value,
+          email: email.value,
+          password: password.value,
+        });
+
+        localStorage.setItem("users", JSON.stringify(users));
+        alert("Account created successfully!");
+        window.location.href = "login.html";
+      }
+    </script>
+  </body>
+</html>

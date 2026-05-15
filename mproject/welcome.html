@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zero Hunger - Welcome</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background: url("image/login.jpg") no-repeat center center/cover;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+      }
+
+      /* HEADER */
+      header {
+        background-color: #0b3d2e;
+        padding: 20px 50px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: white;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        font-weight: bold;
+        font-size: 24px;
+      }
+
+      .logo img {
+        height: 60px;
+        width: 60px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 10px;
+      }
+
+      /* MAIN CONTENT */
+      .welcome-container {
+        background: rgba(0, 0, 0, 0.7);
+        padding: 30px;
+        border-radius: 10px;
+        text-align: center;
+        color: white;
+        width: 350px;
+        margin: 40px auto 20px auto;
+      }
+
+      h1 {
+        color: gold;
+        margin-bottom: 15px;
+      }
+
+      p {
+        margin-bottom: 20px;
+      }
+
+      .btn {
+        display: block;
+        background: gold;
+        color: black;
+        text-decoration: none;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 5px;
+        font-weight: bold;
+        transition: background 0.3s;
+      }
+
+      .btn:hover {
+        background: orange;
+      }
+
+      /* IMAGE CARDS SECTION */
+      .info-section {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+        flex-wrap: nowrap; /* Single row */
+        margin: 20px auto;
+        max-width: 100%;
+        overflow-x: auto; /* Horizontal scroll if needed */
+        padding: 10px;
+      }
+
+      .card {
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        border-radius: 10px;
+        flex: 0 0 300px; /* Fixed width for each card */
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        transition: transform 0.3s ease;
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+      }
+
+      .card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+      }
+
+      .card-content {
+        padding: 15px;
+        text-align: center;
+      }
+
+      .card-content h3 {
+        color: gold;
+        margin-bottom: 10px;
+      }
+
+      .card-content p {
+        color: #ddd;
+        font-size: 14px;
+      }
+
+      /* FOOTER */
+      .footer {
+        background-color: #0b3d2e;
+        color: white;
+        text-align: center;
+        padding: 15px;
+        margin-top: auto;
+      }
+
+      .footer-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .social-icons a {
+        color: white;
+        margin: 0 8px;
+        font-size: 1.2em;
+        transition: color 0.3s ease;
+      }
+
+      .social-icons a:hover {
+        color: #f4b400;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- HEADER -->
+    <header>
+      <div class="logo">
+        <img src="image/sharefood.jpeg" alt="Harvest Hope Logo" />
+        <span>Zero Hunger </span>
+      </div>
+    </header>
+
+    <!-- WELCOME CONTENT -->
+    <div class="welcome-container">
+      <h1>Welcome to Zero Hunger</h1>
+      <p>
+        Join us in reducing food waste and sharing resources with those in need.
+        Together, we can make a difference!
+      </p>
+      <a href="login.html" class="btn">Login</a>
+      <a href="create.html" class="btn">Create Account</a>
+    </div>
+
+    <!-- IMAGE CARDS -->
+    <section class="info-section">
+      <div class="card">
+        <img
+          src="image/Feeding-India-Donate-Food.webp"
+          alt="Helping the Hungry"
+        />
+        <div class="card-content">
+          <h3>Helping the Hungry</h3>
+          <p>
+            We connect surplus food with communities facing hunger to provide
+            nutritious meals.
+          </p>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="image/images.jpeg" alt="Reducing Food Waste" />
+        <div class="card-content">
+          <h3>Reducing Food Waste</h3>
+          <p>
+            We redirect excess food from waste to those who need it most,
+            reducing environmental impact.
+          </p>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="image/images (1).jpeg" alt="Community Support" />
+        <div class="card-content">
+          <h3>Community Support</h3>
+          <p>
+            We unite donors, volunteers, and charities to fight hunger together.
+          </p>
+        </div>
+      </div>
+
+      <div class="card">
+        <img
+          src="image/istockphoto-1362787762-612x612.jpg"
+          alt="Volunteer Action"
+        />
+        <div class="card-content">
+          <h3>Volunteer Action</h3>
+          <p>
+            Our volunteers play a vital role in food collection, packing, and
+            delivery to those in need.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="footer-content">
+        <p>&copy; 2025 Zero Hunger. All rights reserved.</p>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

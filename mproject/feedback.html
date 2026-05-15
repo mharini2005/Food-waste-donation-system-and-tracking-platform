@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Feedback - Zero Hunger</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: url("image/image-bg.jpg") no-repeat center center/cover;
+        background-attachment: fixed;
+      }
+
+      /* ================= NAVBAR ================= */
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 50px;
+        background-color: #0b3d2e;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        color: white;
+        font-size: 24px;
+        font-weight: bold;
+      }
+      .logo img {
+        height: 70px;
+        width: 70px;
+        border-radius: 50%;
+        margin-right: 10px;
+      }
+      .nav-links {
+        list-style: none;
+        display: flex;
+        gap: 22px;
+      }
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+      }
+      .nav-links a i {
+        margin-right: 6px;
+      }
+      .nav-links a:hover {
+        color: gold;
+      }
+
+      .main {
+        display: flex;
+        justify-content: center;
+        padding: 40px 20px;
+      }
+
+      .feedback-box {
+        background: white;
+        width: 420px;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      .feedback-box h3 {
+        text-align: center;
+        color: #0b3d2e;
+      }
+
+      .feedback-box p {
+        text-align: center;
+        font-size: 14px;
+        color: #555;
+      }
+
+      .feedback-box input,
+      .feedback-box textarea,
+      .feedback-box select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 12px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+      }
+
+      .rating {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 15px;
+      }
+
+      .rating i {
+        font-size: 26px;
+        color: #ccc;
+        cursor: pointer;
+        transition: transform 0.2s, color 0.2s;
+      }
+
+      .rating i:hover {
+        transform: scale(1.2);
+      }
+
+      .rating i.active {
+        color: gold;
+      }
+
+      .btn {
+        width: 100%;
+        padding: 12px;
+        background-color: #0b3d2e;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+
+      .btn:hover {
+        background-color: #146c43;
+      }
+
+      /* Footer */
+      .footer {
+        background-color: #0b3d2e;
+        color: white;
+        text-align: center;
+        padding: 15px;
+      }
+
+      .social-icons a {
+        color: white;
+        margin: 0 8px;
+        font-size: 20px;
+      }
+
+      .social-icons a:hover {
+        color: gold;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <nav class="navbar">
+        <div class="logo">
+          <img src="image/sharefood.jpeg" />
+          Zero Hunger
+        </div>
+        <ul class="nav-links">
+          <li>
+            <a href="index.html"><i class="fas fa-home"></i>Home</a>
+          </li>
+          <li>
+            <a href="view.html"><i class="fas fa-utensils"></i>View</a>
+          </li>
+          <li>
+            <a href="analytics.html"
+              ><i class="fas fa-chart-pie"></i>Analytics</a
+            >
+          </li>
+          <li>
+            <a href="feedback.html"><i class="fas fa-comment"></i>Feedback</a>
+          </li>
+          <li>
+            <a href="welcome.html"><i class="fas fa-sign-out-alt"></i>Logout</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <div class="main">
+      <div class="feedback-box">
+        <h3>We Value Your Feedback 💬</h3>
+        <p>Your feedback helps us improve.</p>
+
+        <form id="feedbackForm">
+          <input type="text" placeholder="Your Name" required />
+          <input type="email" placeholder="Your Email" required />
+
+          <select required>
+            <option value="">Select Feedback Type</option>
+            <option>Donation Experience</option>
+            <option>Collector Service</option>
+            <option>Website Experience</option>
+            <option>Suggestion</option>
+          </select>
+
+          <div class="rating">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+          </div>
+
+          <textarea rows="4" placeholder="Your feedback..." required></textarea>
+
+          <button class="btn">Submit Feedback</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>&copy; 2025 Zero Hunger. All rights reserved.</p>
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+      </div>
+    </footer>
+
+    <script>
+      const stars = document.querySelectorAll(".rating i");
+      let rating = 0;
+
+      stars.forEach((star, i) => {
+        star.onclick = () => {
+          rating = i + 1;
+          stars.forEach((s, j) => s.classList.toggle("active", j < rating));
+        };
+      });
+
+      document.getElementById("feedbackForm").onsubmit = function (e) {
+        e.preventDefault();
+
+        const data = {
+          name: this[0].value,
+          email: this[1].value,
+          type: this[2].value,
+          rating: rating,
+          message: this[3].value,
+          date: new Date().toLocaleString(),
+        };
+
+        let feedbacks = JSON.parse(localStorage.getItem("feedbacks")) || [];
+        feedbacks.push(data);
+        localStorage.setItem("feedbacks", JSON.stringify(feedbacks));
+
+        alert("Feedback submitted successfully 💖");
+        this.reset();
+        stars.forEach((s) => s.classList.remove("active"));
+        rating = 0;
+      };
+    </script>
+  </body>
+</html>

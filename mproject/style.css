@@ -1,0 +1,143 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 50px;
+  background-color: #0b3d2e;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  color: white;
+  font-weight: bold;
+  font-size: 24px;
+}
+
+.logo img {
+  height: 30px;
+  margin-right: 10px;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+/* Navbar link style */
+.nav-links li a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.nav-links li a:hover {
+  color: #f4b400; /* Yellow text on hover */
+  transform: scale(1.1);
+}
+
+.nav-links li a i {
+  margin-right: 8px;
+}
+
+/* Hero Section */
+.hero {
+  background-image: url("image/image-bg.jpg"); /* Update to your image */
+  background-size: cover;
+  background-position: center;
+  height: 90vh;
+  position: relative;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+  padding: 20px;
+}
+
+.overlay h1 {
+  font-size: 2.5em;
+  margin-bottom: 10px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.overlay p {
+  color: rgb(249, 243, 243);
+  font-size: 1.2em;
+  margin-bottom: 20px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+/* Button style */
+.btn {
+  padding: 12px 25px;
+  font-size: 1em;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn.green {
+  background-color: #0b3d2e;
+  color: white;
+}
+
+.btn.yellow {
+  background-color: #f4b400;
+  color: black;
+}
+
+/* Button hover effects */
+.btn.green:hover {
+  background-color: #145a44; /* Darker green */
+  transform: scale(1.05);
+}
+
+.btn.yellow:hover {
+  background-color: #ffcc33; /* Lighter yellow */
+  transform: scale(1.05);
+}
+.footer {
+  background-color: #0b3d2e;
+  color: white;
+  text-align: center;
+  padding: 15px;
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.social-icons a {
+  color: white;
+  margin: 0 8px;
+  font-size: 1.2em;
+  transition: color 0.3s ease;
+}
+
+.social-icons a:hover {
+  color: #f4b400; /* Yellow hover */
+}

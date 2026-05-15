@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Collector - Zero Hunger</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: url("image/image-bg.jpg") no-repeat center center/cover;
+        background-attachment: fixed;
+      }
+
+      /* ================= NAVBAR ================= */
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 50px;
+        background-color: #0b3d2e;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        color: white;
+        font-size: 24px;
+        font-weight: bold;
+      }
+      .logo img {
+        height: 70px;
+        width: 70px;
+        border-radius: 50%;
+        margin-right: 10px;
+      }
+      .nav-links {
+        list-style: none;
+        display: flex;
+        gap: 22px;
+      }
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+      }
+      .nav-links a i {
+        margin-right: 6px;
+      }
+      .nav-links a:hover {
+        color: gold;
+      }
+
+      h2 {
+        text-align: center;
+        color: red;
+        margin: 20px 0;
+      }
+
+      /* ===== CARD GRID ===== */
+      .card-container {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr); /* 4 cards per row */
+        gap: 30px; /* small gap between donations */
+        padding: 20px 5%;
+      }
+
+      .donation-card {
+        background: white;
+        border-radius: 12px;
+        padding: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        width: 100%;
+      }
+
+      .food-img,
+      iframe,
+      button {
+        width: 100%;
+      }
+
+      .food-img,
+      iframe {
+        height: 200px;
+        border-radius: 10px;
+        margin-top: 6px;
+        object-fit: cover;
+        border: 0;
+      }
+
+      button {
+        margin-top: 6px;
+        background: #28a745;
+        color: white;
+        border: none;
+        padding: 10px;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background: #ea0d14;
+      }
+
+      .timer-right {
+        background: #000;
+        color: #fff;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 13px;
+        float: right;
+        margin-top: 10px;
+      }
+
+      .expired {
+        background: #dc3545;
+        color: white;
+        padding: 10px;
+        text-align: center;
+        border-radius: 8px;
+        margin-top: 6px;
+        font-weight: bold;
+      }
+
+      .modal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.6);
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+      }
+
+      .modal-content {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        width: 90%;
+        max-width: 400px;
+      }
+
+      .modal-content input {
+        width: 100%;
+        padding: 10px;
+        margin: 8px 0;
+      }
+
+      .footer {
+        background-color: #0b3d2e;
+        color: white;
+        text-align: center;
+        padding: 15px;
+        margin-top: 440px;
+      }
+
+      .social-icons a {
+        color: white;
+        margin: 0 8px;
+        font-size: 20px;
+      }
+
+      .social-icons a:hover {
+        color: gold;
+      }
+
+      /* Responsive */
+      @media (max-width: 1200px) {
+        .card-container {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+
+      @media (max-width: 900px) {
+        .card-container {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 500px) {
+        .card-container {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <nav class="navbar">
+        <div class="logo">
+          <img src="image/sharefood.jpeg" />
+          Zero Hunger
+        </div>
+        <ul class="nav-links">
+          <li>
+            <a href="index.html"><i class="fas fa-home"></i>Home</a>
+          </li>
+          <li>
+            <a href="view.html"><i class="fas fa-utensils"></i>View</a>
+          </li>
+          <li>
+            <a href="analytics.html"
+              ><i class="fas fa-chart-pie"></i>Analytics</a
+            >
+          </li>
+          <li>
+            <a href="feedback.html"><i class="fas fa-comment"></i>Feedback</a>
+          </li>
+          <li>
+            <a href="welcome.html"><i class="fas fa-sign-out-alt"></i>Logout</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <h2>🚚 Pending Donations</h2>
+    <div class="card-container" id="donationCards"></div>
+
+    <div class="modal" id="collectorModal">
+      <div class="modal-content">
+        <h3>Collector Details</h3>
+        <input id="collectorName" placeholder="Collector Name" />
+        <input id="collectorPhone" placeholder="Phone Number" />
+        <button id="submitCollector">Submit & Collect</button>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <p>&copy; 2025 Zero Hunger. All rights reserved.</p>
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+      </div>
+    </footer>
+
+    <script>
+      const container = document.getElementById("donationCards");
+      const modal = document.getElementById("collectorModal");
+      const submitCollector = document.getElementById("submitCollector");
+
+      let pending = JSON.parse(localStorage.getItem("pendingDonations")) || [];
+      let selectedIndex = null;
+
+      function remaining(expiry) {
+        const diff = new Date(expiry) - new Date();
+        if (diff <= 0) return "EXPIRED";
+        const h = Math.floor(diff / 3600000);
+        const m = Math.floor((diff / 60000) % 60);
+        const s = Math.floor((diff / 1000) % 60);
+        return `${h}h ${m}m ${s}s`;
+      }
+
+      function renderDonations() {
+        container.innerHTML = "";
+
+        const now = new Date();
+        pending = pending.filter(
+          (d) => new Date(d.expiryDateTime).getTime() + 60000 > now.getTime()
+        );
+
+        localStorage.setItem("pendingDonations", JSON.stringify(pending));
+
+        pending.forEach((d, i) => {
+          const time = remaining(d.expiryDateTime);
+          const expired = time === "EXPIRED";
+
+          let mapHtml = "<p>Location not available</p>";
+          if (d.location && d.location.includes("Lat")) {
+            const coords = d.location
+              .replace("Lat:", "")
+              .replace("Lng:", "")
+              .split(",");
+            mapHtml = `<iframe src="https://www.google.com/maps?q=${coords[0]},${coords[1]}&z=15&output=embed"></iframe>`;
+          }
+
+          container.innerHTML += `
+            <div class="donation-card">
+              <span class="timer-right">⏳ ${time}</span>
+              <h3>👤 ${d.donorName}</h3>
+              <p><strong>Food:</strong> ${d.foodDetails}</p>
+              <p><strong>Quantity:</strong> ${d.foodQuantity}</p>
+              <p><strong>Expiry:</strong> ${d.expiryDateTime}</p>
+
+              ${d.image ? `<img src="${d.image}" class="food-img">` : ""}
+              ${mapHtml}
+
+              ${
+                expired
+                  ? `<div class="expired">❌ Food Expired</div>`
+                  : `<button onclick="openCollectorForm(${i})">Picked</button>`
+              }
+            </div>`;
+        });
+      }
+
+      function updateTimers() {
+        const now = new Date();
+        let updated = false;
+
+        document.querySelectorAll(".timer-right").forEach((el, idx) => {
+          const t = remaining(pending[idx].expiryDateTime);
+          el.innerHTML = `⏳ ${t}`;
+          if (
+            now.getTime() - new Date(pending[idx].expiryDateTime).getTime() >
+            60000
+          )
+            updated = true;
+        });
+
+        if (updated) renderDonations();
+      }
+
+      function openCollectorForm(i) {
+        if (new Date(pending[i].expiryDateTime) - new Date() <= 0) {
+          alert("❌ Cannot collect expired food.");
+          return;
+        }
+        selectedIndex = i;
+        modal.style.display = "flex";
+      }
+
+      submitCollector.onclick = () => {
+        let history = JSON.parse(localStorage.getItem("donationHistory")) || [];
+        const picked = pending.splice(selectedIndex, 1)[0];
+
+        picked.collectorName = collectorName.value;
+        picked.collectorPhone = collectorPhone.value;
+        picked.pickedTime = new Date().toLocaleString();
+
+        history.push(picked);
+
+        localStorage.setItem("pendingDonations", JSON.stringify(pending));
+        localStorage.setItem("donationHistory", JSON.stringify(history));
+
+        collectorName.value = "";
+        collectorPhone.value = "";
+
+        modal.style.display = "none";
+        renderDonations();
+      };
+
+      renderDonations();
+      setInterval(updateTimers, 1000);
+    </script>
+  </body>
+</html>

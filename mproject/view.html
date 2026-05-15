@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>View Donation History - Harvest Hope</title>
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: url("image/image-bg.jpg") no-repeat center center/cover;
+        background-attachment: fixed;
+      }
+
+      /* ================= NAVBAR ================= */
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 50px;
+        background-color: #0b3d2e;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        color: white;
+        font-size: 24px;
+        font-weight: bold;
+      }
+      .logo img {
+        height: 70px;
+        width: 70px;
+        border-radius: 50%;
+        margin-right: 10px;
+      }
+      .nav-links {
+        list-style: none;
+        display: flex;
+        gap: 22px;
+      }
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+      }
+      .nav-links a i {
+        margin-right: 6px;
+      }
+      .nav-links a:hover {
+        color: gold;
+      }
+
+      /* Main container */
+      .container {
+        margin: 40px auto;
+        width: 95%;
+        max-width: 1200px;
+        background: white;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        margin-top: 90px;
+      }
+
+      h2 {
+        text-align: center;
+        color: #0b3d2e;
+        margin-bottom: 20px;
+      }
+
+      .clear-btn {
+        display: block;
+        margin: 0 auto 15px;
+        background-color: #c52020;
+        color: white;
+        border: none;
+        padding: 10px 18px;
+        font-weight: bold;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+
+      .clear-btn:hover {
+        background-color: #a21717;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: center;
+      }
+
+      th {
+        background-color: #024d34;
+        color: white;
+      }
+
+      tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+
+      /* Footer */
+      .footer {
+        background-color: #0b3d2e;
+        color: white;
+        text-align: center;
+        padding: 15px;
+        margin-top: 400px;
+      }
+
+      .social-icons a {
+        color: white;
+        margin: 0 8px;
+        font-size: 20px;
+      }
+
+      .social-icons a:hover {
+        color: gold;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <nav class="navbar">
+        <div class="logo">
+          <img src="image/sharefood.jpeg" />
+          Zero Hunger
+        </div>
+        <ul class="nav-links">
+          <li>
+            <a href="index.html"><i class="fas fa-home"></i>Home</a>
+          </li>
+          <li>
+            <a href="view.html"><i class="fas fa-utensils"></i>View</a>
+          </li>
+          <li>
+            <a href="analytics.html"
+              ><i class="fas fa-chart-pie"></i>Analytics</a
+            >
+          </li>
+          <li>
+            <a href="feedback.html"><i class="fas fa-comment"></i>Feedback</a>
+          </li>
+          <li>
+            <a href="welcome.html"><i class="fas fa-sign-out-alt"></i>Logout</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <!-- Main -->
+    <div class="container">
+      <h2>📜 Picked Donation History</h2>
+
+      <button class="clear-btn" onclick="clearHistory()">
+        Clear Donation History
+      </button>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Donor Name</th>
+            <th>Food Type</th>
+            <th>Quantity</th>
+            <th>Expiry</th>
+            <th>Area Name</th>
+            <th>Collector Name</th>
+            <th>Collector Phone</th>
+            <th>Collected Time</th>
+          </tr>
+        </thead>
+        <tbody id="historyTable"></tbody>
+      </table>
+    </div>
+    <!-- Footer -->
+    <footer class="footer">
+      <p>&copy; 2025 Harvest Hope. All rights reserved.</p>
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+      </div>
+    </footer>
+    <!-- Script -->
+    <script>
+      const historyTable = document.getElementById("historyTable");
+      const history = JSON.parse(localStorage.getItem("donationHistory")) || [];
+
+      if (history.length === 0) {
+        historyTable.innerHTML =
+          "<tr><td colspan='8'>No donations collected yet</td></tr>";
+      } else {
+        history.forEach((d) => {
+          const area =
+            d.areaName && d.areaName.trim() !== ""
+              ? d.areaName
+              : "Not Provided";
+
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${d.donorName || "-"}</td>
+            <td>${d.foodDetails || "-"}</td>
+            <td>${d.foodQuantity || "-"}</td>
+            <td>${d.expiryDateTime || "-"}</td>
+            <td>${area}</td>
+            <td>${d.collectorName || "-"}</td>
+            <td>${d.collectorPhone || "-"}</td>
+            <td>${d.pickedTime || "-"}</td>
+          `;
+          historyTable.appendChild(row);
+        });
+      }
+
+      function clearHistory() {
+        if (confirm("Are you sure you want to delete all donation history?")) {
+          localStorage.removeItem("donationHistory");
+          location.reload();
+        }
+      }
+    </script>
+  </body>
+</html>
